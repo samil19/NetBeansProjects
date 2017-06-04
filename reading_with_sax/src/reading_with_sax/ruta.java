@@ -59,7 +59,29 @@ public class ruta extends javax.swing.JFrame {
  
     private void jFileChooser1ActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // TODO add your handling code here:
-        
+        int r = jFileChooser1.showOpenDialog(this);
+
+
+
+        if (r == JFileChooser.APPROVE_OPTION) {
+
+            File file = jFileChooser1.getSelectedFile();
+
+
+
+             Reading_with_sax Reading_with_sax = new Reading_with_sax();
+
+            Reading_with_sax.leer(file.getPath());
+
+            
+
+            javax.swing.JOptionPane.showMessageDialog(this, "Archivo seleccionado exitosamente!");
+
+        } else {
+
+            javax.swing.JOptionPane.showMessageDialog(this, "No se ha seleccionado archivo!");
+
+        }
     }
     /**
      * @param args the command line arguments

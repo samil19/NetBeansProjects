@@ -17,22 +17,23 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import java.io.File;
+import java.sql.PreparedStatement;
 
 public class Reading_XML_with_DOM {
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public void leer(String path) {
        try {
 
-	File fXmlFile = new File("/Users/Samil/Desktop/XML/staff.xml");
+	File fXmlFile = new File(path);
 	DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 	DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 	Document doc = dBuilder.parse(fXmlFile);
 
 	doc.getDocumentElement().normalize();
-
+PreparedStatement ps = db.DBUtils.getPreparedStatement("insert into dbo.dom values(?, ?, ?, ?, ?)");
 	System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
 	NodeList nList = doc.getElementsByTagName("staff");
@@ -47,16 +48,26 @@ public class Reading_XML_with_DOM {
 
 		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
+              
 			Element eElement = (Element) nNode;
 
 			System.out.println("Staff id : " + eElement.getAttribute("id"));
+                        ps.setString(1, eElement.getAttribute("id"));
 			System.out.println("First Name : " + eElement.getElementsByTagName("firstname").item(0).getTextContent());
+                        ps.setString(2, eElement.getElementsByTagName("firstname").item(0).getTextContent());
 			System.out.println("Last Name : " + eElement.getElementsByTagName("lastname").item(0).getTextContent());
+                        ps.setString(3, eElement.getElementsByTagName("lastname").item(0).getTextContent());
 			System.out.println("Nick Name : " + eElement.getElementsByTagName("nickname").item(0).getTextContent());
+                        ps.setString(4, eElement.getElementsByTagName("nickname").item(0).getTextContent());
 			System.out.println("Salary : " + eElement.getElementsByTagName("salary").item(0).getTextContent());
-
+                        ps.setString(5, eElement.getElementsByTagName("salary").item(0).getTextContent());
+                        
+                        
 		}
+                ps.executeUpdate();
 	}
+        
+        
     } catch (Exception e) {
 	e.printStackTrace();
     }
